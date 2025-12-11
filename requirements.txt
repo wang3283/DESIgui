@@ -6,3 +6,7 @@ cryptography>=3.4.0
 openpyxl>=3.0.0
 xlsxwriter>=3.0.0
 pyinstaller>=5.0.0
+scipy>=1.7.0
+requests>=2.25.0
+hypothesis>=6.0.0
+pytest>=7.0.0
