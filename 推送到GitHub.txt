@@ -1,0 +1,144 @@
+===============================================
+DESI系统 - 推送到GitHub步骤
+===============================================
+
+GitHub仓库: https://github.com/wang3283/DESIgui.git
+
+【方式一】首次推送（推荐）
+---------------------------
+在终端中依次运行以下命令:
+
+1. 初始化Git仓库
+   git init
+
+2. 添加远程仓库
+   git remote add origin https://github.com/wang3283/DESIgui.git
+
+3. 添加所有文件
+   git add .
+
+4. 提交更改
+   git commit -m "Initial commit: DESI空间代谢组学分析系统"
+
+5. 推送到GitHub（选择其中一个）
+   git push -u origin main
+   或
+   git push -u origin master
+
+   如果提示远程仓库已有内容，使用:
+   git pull origin main --rebase
+   然后再推送:
+   git push -u origin main
+
+
+【方式二】如果远程仓库已存在
+---------------------------
+1. 初始化并添加远程仓库
+   git init
+   git remote add origin https://github.com/wang3283/DESIgui.git
+
+2. 拉取远程内容
+   git pull origin main --allow-unrelated-histories
+   或
+   git pull origin master --allow-unrelated-histories
+
+3. 添加并提交本地文件
+   git add .
+   git commit -m "Update: 添加完整的DESI系统代码"
+
+4. 推送
+   git push -u origin main
+
+
+【方式三】强制推送（覆盖远程）
+---------------------------
+⚠️ 警告: 这会覆盖远程仓库的所有内容！
+
+1. 初始化并添加远程仓库
+   git init
+   git remote add origin https://github.com/wang3283/DESIgui.git
+
+2. 添加并提交
+   git add .
+   git commit -m "Initial commit: DESI空间代谢组学分析系统"
+
+3. 强制推送
+   git push -u origin main --force
+   或
+   git push -u origin master --force
+
+
+【在Windows上克隆】
+---------------------------
+1. 打开Git Bash或命令提示符
+
+2. 克隆仓库
+   git clone https://github.com/wang3283/DESIgui.git
+
+3. 进入目录
+   cd DESIgui
+
+4. 安装依赖
+   pip install -r requirements.txt
+
+5. 打包
+   python build_windows.py
+
+
+【检查Git状态】
+---------------------------
+# 查看当前状态
+git status
+
+# 查看远程仓库
+git remote -v
+
+# 查看提交历史
+git log --oneline
+
+
+【常见问题】
+---------------------------
+Q: 提示 "fatal: not a git repository"
+A: 需要先运行 git init
+
+Q: 提示 "remote origin already exists"
+A: 运行 git remote remove origin 然后重新添加
+
+Q: 推送失败，提示认证错误
+A: 需要配置GitHub的Personal Access Token
+   或使用SSH密钥
+
+Q: 提示 "Updates were rejected"
+A: 远程仓库有新内容，需要先pull或使用--force
+
+Q: 文件太大无法推送
+A: 数据库文件较大，确保在.gitignore中排除不必要的文件
+   或使用Git LFS处理大文件
+
+
+【推荐的.gitignore】
+---------------------------
+已创建 .gitignore 文件，排除了:
+- Python缓存文件 (__pycache__, *.pyc)
+- 虚拟环境 (venv/, env/)
+- IDE配置 (.vscode/, .idea/)
+- macOS文件 (.DS_Store, ._*)
+- 测试数据库 (test_*.db)
+- 构建产物 (dist/, build/)
+
+注意: 以下文件会被包含（需要推送）:
+✓ hmdb_database.db (HMDB数据库)
+✓ metabolite_cache.db (缓存数据库)
+✓ license_manager.db (许可证数据库)
+
+
+【文件大小提示】
+---------------------------
+如果数据库文件太大（>100MB），GitHub可能拒绝推送。
+解决方案:
+1. 使用Git LFS (Large File Storage)
+2. 将大文件放到其他存储（如云盘）
+3. 在Windows上单独下载数据库文件
+
+===============================================

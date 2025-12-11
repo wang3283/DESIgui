@@ -1,0 +1,203 @@
+===============================================
+Windows电脑 - 克隆和打包完整指南
+===============================================
+
+【前提条件】
+---------------------------
+1. 安装Git for Windows
+   下载: https://git-scm.com/download/win
+   
+2. 安装Python 3.7+
+   下载: https://www.python.org/downloads/
+   ⚠️ 安装时勾选 "Add Python to PATH"
+
+
+【第一步】克隆GitHub仓库
+---------------------------
+1. 打开命令提示符(CMD)或Git Bash
+
+2. 选择一个工作目录
+   cd C:\Users\你的用户名\Documents
+
+3. 克隆仓库
+   git clone https://github.com/wang3283/DESIgui.git
+
+4. 进入项目目录
+   cd DESIgui
+
+5. 验证文件
+   dir
+   
+   应该看到:
+   ✓ main_gui_ultimate.py
+   ✓ build_windows.py
+   ✓ requirements.txt
+   ✓ 安装依赖.bat
+   ✓ 打包程序.bat
+   ✓ 以及其他所有Python文件
+
+
+【第二步】安装依赖
+---------------------------
+方式一：使用批处理文件（推荐）
+   双击运行: 安装依赖.bat
+   
+方式二：手动安装
+   在CMD中运行:
+   pip install -r requirements.txt
+   
+等待安装完成（约5-10分钟）
+
+
+【第三步】打包程序
+---------------------------
+方式一：使用批处理文件（推荐）
+   双击运行: 打包程序.bat
+   
+方式二：手动打包
+   在CMD中运行:
+   python build_windows.py
+   
+   然后选择:
+   1 - 只打包主程序
+   2 - 只打包许可证管理器
+   3 - 全部打包（推荐）
+
+等待打包完成（约10-20分钟）
+
+
+【第四步】查找生成的文件
+---------------------------
+打包完成后，在项目目录下找到:
+
+DESIgui\dist\
+  ├── DESI空间代谢组学分析系统.exe  (主程序, ~150-200MB)
+  └── 许可证管理器.exe              (管理工具, ~100MB)
+
+
+【第五步】测试运行
+---------------------------
+1. 进入 dist 目录
+   cd dist
+
+2. 双击运行: DESI空间代谢组学分析系统.exe
+
+3. 首次启动需要3-5秒
+
+4. 如果Windows提示"未知发行商"
+   点击 "更多信息" → "仍要运行"
+
+
+【分发给其他用户】
+---------------------------
+1. 复制 dist 目录下的 .exe 文件
+
+2. 可以压缩成 .zip 方便传输
+   右键 → 发送到 → 压缩(zipped)文件夹
+
+3. 用户下载后解压，双击运行即可
+   ⚠️ 无需安装Python或任何依赖
+
+
+【更新代码】
+---------------------------
+如果GitHub上有新的更新:
+
+1. 进入项目目录
+   cd C:\Users\你的用户名\Documents\DESIgui
+
+2. 拉取最新代码
+   git pull origin main
+   或
+   git pull origin master
+
+3. 重新打包
+   python build_windows.py
+
+
+【常见问题】
+---------------------------
+Q: 克隆时提示认证失败？
+A: 如果仓库是私有的，需要配置GitHub token
+   或使用SSH密钥
+
+Q: pip安装依赖失败？
+A: 尝试使用国内镜像:
+   pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+Q: 打包时提示找不到模块？
+A: 确保所有依赖都已安装:
+   pip list | findstr PyQt5
+   pip list | findstr matplotlib
+
+Q: 生成的.exe文件太大？
+A: 这是正常的，包含了Python和所有库
+   可以使用Nuitka打包（文件更小，但编译时间长）
+
+Q: 运行.exe时提示缺少DLL？
+A: 安装 Visual C++ Redistributable:
+   https://aka.ms/vs/17/release/vc_redist.x64.exe
+
+Q: 杀毒软件报警？
+A: 这是误报，PyInstaller打包的程序常被误报
+   添加到白名单即可
+
+Q: 数据库文件在哪里？
+A: 数据库文件应该在项目根目录:
+   - hmdb_database.db
+   - metabolite_cache.db
+   - license_manager.db
+   
+   如果缺失，需要单独下载或从macOS复制
+
+
+【Git常用命令】
+---------------------------
+# 查看状态
+git status
+
+# 查看远程仓库
+git remote -v
+
+# 拉取最新代码
+git pull origin main
+
+# 查看提交历史
+git log --oneline
+
+# 切换分支
+git checkout <分支名>
+
+# 查看所有分支
+git branch -a
+
+
+【目录结构】
+---------------------------
+C:\Users\你的用户名\Documents\DESIgui\
+├── main_gui_ultimate.py          主程序
+├── license_manager_gui.py        许可证管理器
+├── build_windows.py              打包脚本
+├── requirements.txt              依赖清单
+├── 安装依赖.bat                  一键安装
+├── 打包程序.bat                  一键打包
+├── Windows打包步骤.txt           详细指南
+├── hmdb_database.db              HMDB数据库
+├── metabolite_cache.db           缓存数据库
+├── license_manager.db            许可证数据库
+├── dist\                         打包输出目录
+│   ├── DESI空间代谢组学分析系统.exe
+│   └── 许可证管理器.exe
+└── build\                        打包临时文件
+
+
+【技术支持】
+---------------------------
+如遇到问题:
+1. 检查Python版本: python --version
+2. 检查Git版本: git --version
+3. 检查依赖安装: pip list
+4. 查看错误日志
+5. 参考 Windows打包步骤.txt
+
+===============================================

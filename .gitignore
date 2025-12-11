@@ -1,0 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+
+# Database
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Test
+.pytest_cache/
+.hypothesis/
+test_*.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.old
+
+# Build artifacts
+build/
+dist/
+*.exe
+*.app
+*.dmg
+
+# Large database files (download separately)
+hmdb_database.db
+metabolite_cache.db
+hmdb_downloads/
+*.xml

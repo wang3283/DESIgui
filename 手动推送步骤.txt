@@ -1,0 +1,72 @@
+===============================================
+手动推送到GitHub - 简单3步
+===============================================
+
+由于工作目录问题，请手动执行以下命令：
+
+【步骤1】打开终端
+---------------------------
+在Finder中找到项目文件夹:
+/Volumes/US100 256G/mouse DESI data/desi_gui_v2
+
+右键 → 服务 → 新建位于文件夹位置的终端窗口
+
+或者在终端中输入:
+cd "/Volumes/US100 256G/mouse DESI data/desi_gui_v2"
+
+
+【步骤2】初始化并配置Git
+---------------------------
+复制粘贴以下命令（一次性执行）:
+
+git init
+git config user.name "DESI Developer"
+git config user.email "desi@example.com"
+git remote add origin https://github.com/wang3283/DESIgui.git
+git add .
+git commit -m "Initial commit: DESI空间代谢组学分析系统"
+
+
+【步骤3】推送到GitHub
+---------------------------
+尝试推送:
+git push -u origin main
+
+如果失败，尝试:
+git push -u origin master
+
+如果还是失败（远程已有内容），使用:
+git pull origin main --rebase
+git push -u origin main
+
+或者强制推送（会覆盖远程）:
+git push -u origin main --force
+
+
+【一键复制命令】
+---------------------------
+cd "/Volumes/US100 256G/mouse DESI data/desi_gui_v2"
+git init
+git config user.name "DESI Developer"  
+git config user.email "desi@example.com"
+git remote add origin https://github.com/wang3283/DESIgui.git
+git add .
+git commit -m "Initial commit: DESI空间代谢组学分析系统"
+git push -u origin main
+
+
+【验证推送成功】
+---------------------------
+访问: https://github.com/wang3283/DESIgui
+
+应该能看到所有文件已上传
+
+
+【在Windows上克隆】
+---------------------------
+git clone https://github.com/wang3283/DESIgui.git
+cd DESIgui
+pip install -r requirements.txt
+python build_windows.py
+
+===============================================

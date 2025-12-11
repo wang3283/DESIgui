@@ -1,0 +1,126 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [ main, master ]
+    tags:
+      - 'v*'  # 当推送tag时触发（如 v1.0.0）
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Verify files
+      run: |
+        echo "Checking required files..."
+        if (Test-Path main_gui_ultimate.py) { echo "✓ main_gui_ultimate.py found" } else { echo "✗ main_gui_ultimate.py missing"; exit 1 }
+        if (Test-Path license_manager_gui.py) { echo "✓ license_manager_gui.py found" } else { echo "✗ license_manager_gui.py missing"; exit 1 }
+        if (Test-Path hmdb_database.db) { echo "✓ hmdb_database.db found" } else { echo "⚠ hmdb_database.db missing" }
+        if (Test-Path metabolite_cache.db) { echo "✓ metabolite_cache.db found" } else { echo "⚠ metabolite_cache.db missing" }
+      shell: pwsh
+    
+    - name: Build Main GUI
+      run: |
+        echo "Building DESI Main Application..."
+        pyinstaller --name=DESI空间代谢组学分析系统 --windowed --onefile --clean --noconfirm --add-data="hmdb_database.db;." --add-data="metabolite_cache.db;." --hidden-import=PyQt5 --hidden-import=matplotlib --hidden-import=numpy --hidden-import=pandas --hidden-import=cryptography --hidden-import=openpyxl --hidden-import=xlsxwriter main_gui_ultimate.py
+        echo "✓ Main GUI build complete"
+    
+    - name: Build License Manager
+      run: |
+        echo "Building License Manager..."
+        pyinstaller --name=许可证管理器 --windowed --onefile --clean --noconfirm --hidden-import=PyQt5 --hidden-import=cryptography --hidden-import=pandas license_manager_gui.py
+        echo "✓ License Manager build complete"
+    
+    - name: List build outputs
+      run: |
+        echo "Build outputs:"
+        dir dist
+      shell: pwsh
+    
+    - name: Create package
+      run: |
+        echo "Creating distribution package..."
+        mkdir release
+        Copy-Item "dist\DESI空间代谢组学分析系统.exe" release\
+        Copy-Item "dist\许可证管理器.exe" release\
+        Copy-Item "README.md" release\
+        Copy-Item "Windows打包步骤.txt" release\
+        Copy-Item "使用指南.md" release\ -ErrorAction SilentlyContinue
+        Copy-Item "启动指南.md" release\ -ErrorAction SilentlyContinue
+        echo "✓ Package created"
+      shell: pwsh
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: DESI-Windows-Executables
+        path: release/
+        retention-days: 30
+    
+    - name: Get version
+      id: get_version
+      run: |
+        if ($env:GITHUB_REF -match 'refs/tags/(.*)') {
+          echo "VERSION=$($matches[1])" >> $env:GITHUB_OUTPUT
+        } else {
+          $date = Get-Date -Format "yyyyMMdd"
+          echo "VERSION=dev-$date" >> $env:GITHUB_OUTPUT
+        }
+      shell: pwsh
+    
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          release/DESI空间代谢组学分析系统.exe
+          release/许可证管理器.exe
+          release/README.md
+        body: |
+          ## DESI空间代谢组学分析系统 - Windows版本
+          
+          ### 下载说明
+          - `DESI空间代谢组学分析系统.exe` - 主程序（约150-200MB）
+          - `许可证管理器.exe` - 管理员工具（约100MB）
+          
+          ### 使用方法
+          1. 下载 .exe 文件
+          2. 双击运行（首次启动需要3-5秒）
+          3. 无需安装Python或任何依赖
+          
+          ### 系统要求
+          - Windows 7/8/10/11 (64位)
+          - 4GB+ RAM
+          - 500MB+ 磁盘空间
+          
+          ### 主要功能
+          - 数据加载与可视化
+          - 代谢物注释（HMDB数据库）
+          - 质量校准（Lock Mass）
+          - 商业化计费系统
+          - 许可证管理
+          
+          ### 技术支持
+          如遇问题，请查看 README.md 或提交 Issue
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

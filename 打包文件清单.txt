@@ -1,0 +1,79 @@
+===============================================
+Windows 打包所需文件清单
+===============================================
+
+【核心程序文件】(必需)
+□ main_gui_ultimate.py
+□ license_manager_gui.py
+
+【数据处理模块】(必需)
+□ data_loader.py
+□ data_filter.py
+□ data_filter_config.py
+□ data_filter_dialog.py
+□ data_encryptor.py
+
+【许可证系统】(必需)
+□ license_manager_core.py
+□ license_integration.py
+□ license_validation_dialog.py
+□ license_renewal_dialog.py
+□ license_sync.py
+
+【使用追踪】(必需)
+□ usage_tracker.py
+□ usage_stats_dialog.py
+
+【数据库管理】(必需)
+□ database_manager.py
+
+【客户管理】(必需)
+□ customer_dialogs.py
+□ import_report_dialog.py
+□ invoice_dialog.py
+□ invoice_generator.py
+
+【完整性验证】(必需)
+□ integrity_dialog.py
+□ integrity_verifier.py
+
+【计费系统】(必需)
+□ quarterly_billing_workflow.py
+
+【分析功能】(必需)
+□ sample_comparison_dialog.py
+□ lock_mass_dialog.py
+□ lock_mass_corrector.py
+□ mass_calibration_manager.py
+□ report_generator.py
+
+【代谢物功能】(必需)
+□ metabolite_splitter.py
+□ online_metabolite_annotator.py
+□ hmdb_database_query.py
+□ metabolite_cache_db.py
+
+【数据库文件】(必需)
+□ hmdb_database.db
+□ metabolite_cache.db
+□ license_manager.db (如果已创建)
+
+【打包工具】(必需)
+□ build_windows.py
+□ requirements.txt
+□ 安装依赖.bat
+□ 打包程序.bat
+
+【文档】(可选)
+□ Windows打包步骤.txt
+□ 快速打包指南.txt
+□ 启动指南.md
+
+===============================================
+检查清单：
+1. ✓ 所有文件在同一目录
+2. ✓ Python 3.7+ 已安装
+3. ✓ 依赖库已安装
+4. ✓ 数据库文件存在
+5. ✓ 有足够磁盘空间 (至少 2GB)
+===============================================
