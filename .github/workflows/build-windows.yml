@@ -1,4 +1,5 @@
 name: Build Windows Executable
+# Auto-build on push to main
 
 on:
   push:
