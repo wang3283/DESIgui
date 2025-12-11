@@ -63,9 +63,13 @@ DESI（Desorption Electrospray Ionization）空间代谢组学分析系统是一
 **直接下载运行（无需安装Python）：**
 
 1. 访问 [Releases页面](https://github.com/wang3283/DESIgui/releases/latest)
-2. 下载 `DESI空间代谢组学分析系统.exe`（主程序）
-3. 下载 `许可证管理器.exe`（可选，管理员使用）
-4. 双击运行，首次启动需要3-5秒
+2. 下载 `DESI_Metabolomics.exe`（主程序）
+3. 下载 `LicenseManager.exe`（可选，管理员使用）
+4. **重要**：下载 `hmdb_database.db`（代谢物数据库，137MB）
+5. 将数据库文件放在exe同目录
+6. 双击运行，首次启动需要3-5秒
+
+**注意**：如果不下载数据库文件，代谢物注释功能将不可用，但其他功能正常。
 
 ### macOS/Linux
 ```bash
@@ -157,9 +161,19 @@ desi_gui_v2/
 
 所有数据库文件均为SQLite格式，完全跨平台兼容（macOS ↔ Windows ↔ Linux）：
 
-- `hmdb_database.db` - HMDB代谢物数据库（约50MB）
-- `metabolite_cache.db` - 代谢物查询缓存
-- `license_manager.db` - 许可证和客户信息
+- `hmdb_database.db` - HMDB代谢物数据库（**137MB，需单独下载**）
+- `metabolite_cache.db` - 代谢物查询缓存（运行时自动生成）
+- `license_manager.db` - 许可证和客户信息（运行时自动生成）
+
+### 数据库下载
+
+由于GitHub限制，大型数据库文件需要单独下载：
+
+1. 从 [Releases页面](https://github.com/wang3283/DESIgui/releases) 下载 `hmdb_database.db`
+2. 将文件放在exe同目录下
+3. 程序启动时会自动加载
+
+如果没有数据库文件，程序仍可运行，但代谢物注释功能不可用。
 
 ## 打包说明
 
