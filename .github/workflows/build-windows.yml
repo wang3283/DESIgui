@@ -57,3 +57,31 @@ jobs:
         name: DESI-Windows-Executables
         path: release/
         retention-days: 30
+    
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          release/DESI_Metabolomics.exe
+          release/LicenseManager.exe
+          release/README.md
+        body: |
+          ## DESI空间代谢组学分析系统 ${{ github.ref_name }}
+          
+          ### 下载说明
+          1. 下载 `DESI_Metabolomics.exe` - 主程序
+          2. 下载 `LicenseManager.exe` - 许可证管理器（管理员用）
+          3. **重要**: 需要单独下载 `hmdb_database.db` (137MB) 放在exe同目录
+          
+          ### 数据库文件
+          代谢物数据库文件太大无法包含在Release中，请联系开发者获取。
+          
+          ### 使用方法
+          1. 下载exe文件和数据库
+          2. 将数据库放在exe同目录
+          3. 双击运行
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
